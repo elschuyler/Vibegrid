@@ -1,52 +1,65 @@
 import { Controls } from './controls.js';
 
-// Global VibeGrid Shell State
 const state = {
-  gameLoaded: false,
-  memoryInterval: null
+  gameLoaded: false
 };
 
-// 1. Initialize Virtual D-Pad & Buttons
+// Initialize Controls
 Controls.init();
 
-// 2. Placeholder for Scribe's Ledger
-// (Save States / Load / Quit Menu)
+// Overlay Menu Logic
 window.toggleMenu = () => {
-  console.log(
-    "Menu Toggled: Save State Placeholder"
+  const menu = document.getElementById(
+    'vibe-menu'
   );
-  // Phase 7 will build the overlay UI
-  // for saving and exiting the ROMZ.
+  if (menu.classList.contains('hidden')) {
+    menu.classList.remove('hidden');
+  } else {
+    menu.classList.add('hidden');
+  }
 };
 
-// 3. Shell Performance Monitoring
-// Keeps an eye on the 100MB RAM limit
+window.saveState = () => {
+  console.log("Saving to Scribe's Ledger...");
+  // Will connect to scribe-ledger.js later
+  window.toggleMenu();
+};
+
+window.loadState = () => {
+  console.log("Loading from Ledger...");
+  // Will connect to scribe-ledger.js later
+  window.toggleMenu();
+};
+
+window.quitGame = () => {
+  const screen = document.getElementById(
+    'vibe-screen'
+  );
+  // Destroy iframe content to free RAM
+  screen.srcdoc = '';
+  
+  // Close menu
+  window.toggleMenu();
+  console.log("Game Quit. RAM Purged.");
+};
+
+// RAM Monitor
 function updateStats() {
   const ramMeter = document.getElementById(
     'ram-meter'
   );
-  
-  // Measure WebView memory if available
   if (performance && performance.memory) {
     const used = Math.round(
       performance.memory.usedJSHeapSize 
       / 1024 / 1024
     );
-    // Alert if approaching 3GB device limits
-    if (used > 80) {
-      ramMeter.style.color = "red";
-    } else {
-      ramMeter.style.color = "var(--glow-green)";
-    }
-    
+    ramMeter.style.color = used > 80 ? 
+      "red" : "var(--glow-green)";
     ramMeter.innerText = `RAM: ${used}/100MB`;
   }
-  
-  // Update twice a second to save CPU
   setTimeout(() => {
     requestAnimationFrame(updateStats);
   }, 500);
 }
 
-// Start monitoring the shell
 updateStats();
