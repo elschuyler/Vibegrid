@@ -33,9 +33,29 @@
     </div>
   </main>
 
-  <div id="touch-controls" class="hidden">
+  <div id="touch-controls">
+    <div id="dpad">
+      <div class="d-btn" id="btn-up" 
+      data-key="ArrowUp">U</div>
+      <div class="d-row">
+        <div class="d-btn" id="btn-left" 
+        data-key="ArrowLeft">L</div>
+        <div class="d-center"></div>
+        <div class="d-btn" id="btn-right" 
+        data-key="ArrowRight">R</div>
+      </div>
+      <div class="d-btn" id="btn-down" 
+      data-key="ArrowDown">D</div>
     </div>
+    
+    <div id="action-pad">
+      <div class="a-btn" id="btn-b" 
+      data-key="x">B</div>
+      <div class="a-btn" id="btn-a" 
+      data-key="z">A</div>
+    </div>
+  </div>
 
   <script type="module" src="main.js"></script>
 </body>
-</html>
+  </html>
