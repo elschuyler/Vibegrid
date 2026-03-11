@@ -1,62 +1,72 @@
 import * as THREE from 'three';
+import { Controls } from './controls.js';
 
-// VibeGrid Engine State
 const state = {
   fps: 0,
-  memory: 0,
-  clock: new THREE.Clock()
+  player: { x: 0, z: 0, speed: 0.1 }
 };
 
-// 1. Initialize Renderer
-const canvas = document.querySelector('#vibe-canvas');
+// 1. Setup Renderer
+const canvas = document.querySelector(
+  '#vibe-canvas'
+);
 const renderer = new THREE.WebGLRenderer({ 
-  canvas, 
-  antialias: false 
+  canvas, antialias: false 
 });
 renderer.setSize(320, 240);
 
-// 2. Scene Setup (Technical Grid)
+// 2. Scene & Grid Overlay
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x050505);
 
-const grid = new THREE.GridHelper(100, 20, 
+// The "Technical Grid" visual
+const grid = new THREE.GridHelper(20, 20, 
   0x00ff41, 0x002200);
 scene.add(grid);
 
-// 3. Camera
+// 3. Camera (Fixed Top-Down GBA Style)
 const camera = new THREE.PerspectiveCamera(
-  75, 320/240, 0.1, 1000
+  60, 320/240, 0.1, 1000
 );
-camera.position.set(0, 5, 10);
+camera.position.set(0, 10, 10);
 camera.lookAt(0, 0, 0);
 
-// 4. Optimization: Memory Cleanup
-function cleanup() {
-  scene.traverse(obj => {
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) {
-      if (Array.isArray(obj.material)) {
-        obj.material.forEach(m => m.dispose());
-      } else {
-        obj.material.dispose();
-      }
-    }
-  });
-}
+// 4. Player Placeholder (Cube)
+const geo = new THREE.BoxGeometry(1, 1, 1);
+const mat = new THREE.MeshBasicMaterial({ 
+  color: 0x00ff41, wireframe: true 
+});
+const playerObj = new THREE.Mesh(geo, mat);
+scene.add(playerObj);
 
-// 5. Render Loop
+// 5. Logic & Movement
+Controls.init();
+
 function animate() {
   requestAnimationFrame(animate);
-  const delta = state.clock.getDelta();
   
-  // Rotate grid for "vibe"
-  grid.rotation.y += 0.1 * delta;
+  // GBA 4-Directional Movement
+  if (Controls.up) state.player.z -= 
+    state.player.speed;
+  if (Controls.down) state.player.z += 
+    state.player.speed;
+  if (Controls.left) state.player.x -= 
+    state.player.speed;
+  if (Controls.right) state.player.x += 
+    state.player.speed;
+
+  playerObj.position.set(
+    state.player.x, 0.5, state.player.z
+  );
   
+  // Keep camera locked on player
+  camera.position.x = state.player.x;
+  camera.position.z = state.player.z + 10;
+  camera.lookAt(
+    state.player.x, 0, state.player.z
+  );
+
   renderer.render(scene, camera);
-  
-  // Update UI Stats
-  document.getElementById('fps-counter')
-    .innerText = `FPS: ${Math.round(1/delta)}`;
 }
 
 animate();
