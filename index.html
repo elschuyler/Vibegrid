@@ -29,7 +29,18 @@
       <iframe id="vibe-screen" 
       sandbox="allow-scripts" 
       frameborder="0"></iframe>
-      <div id="overlay-ui"></div>
+      
+      <div id="vibe-menu" class="hidden">
+        <h2 class="menu-title">SYSTEM</h2>
+        <button class="menu-btn" 
+        onclick="saveState()">SAVE STATE</button>
+        <button class="menu-btn" 
+        onclick="loadState()">LOAD STATE</button>
+        <button class="menu-btn quit-btn" 
+        onclick="quitGame()">QUIT GAME</button>
+        <button class="menu-btn close-btn" 
+        onclick="toggleMenu()">CLOSE MENU</button>
+      </div>
     </div>
   </main>
 
