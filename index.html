@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#050505">
+    <title>VibeGrid</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="status-bar">
+        <span id="fps-counter">FPS: 60</span>
+        <span id="ram-meter">RAM: 00/100MB</span>
+    </div>
+
+    <div id="action-bar">
+        <button class="btn-grid" onclick="toggleLibrary()">LIBRARY</button>
+        <button class="btn-grid" onclick="toggleMenu()">MENU</button>
+    </div>
+
+    <main id="app-container">
+        <div id="grid-display">
+            <canvas id="vibe-canvas"></canvas>
+            <div id="overlay-ui"></div>
+        </div>
+    </main>
+
+    <div id="touch-controls" class="hidden">
+        </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
