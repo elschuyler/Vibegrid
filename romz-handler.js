@@ -1,24 +1,31 @@
-// Local ROMZ Processing logic
-export function initFilePicker() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.romz,.zip';
+import * as fflate from 'fflate';
+
+export async function loadRomz(file) {
+  const buffer = await file.arrayBuffer();
+  const uint8 = new Uint8Array(buffer);
   
-  input.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // Memory-efficient decompression
+  fflate.unzip(uint8, (err, unzipped) => {
+    if (err) {
+      console.error("ROMZ Corrupt");
+      return;
+    }
 
-    console.log(`Loading: ${file.name}`);
-    // Logic for unzipping and 
-    // passing to Three.js scene
-    // will go here in Phase 3.
-  };
-
-  return input;
+    // Look for manifest.json
+    const manifestData = unzipped['manifest.json'];
+    if (manifestData) {
+      const manifest = JSON.parse(
+        fflate.strFromU8(manifestData)
+      );
+      console.log("Loading:", manifest.title);
+      // Pass unzipped assets to Three.js
+      setupGame(unzipped, manifest);
+    }
+  });
 }
 
-// Trigger via UI Library button
-window.toggleLibrary = () => {
-  const picker = initFilePicker();
-  picker.click();
-};
+function setupGame(assets, manifest) {
+  // Logic to inject game.js 
+  // and load assets will be 
+  // in Phase 4.
+}
