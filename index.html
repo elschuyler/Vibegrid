@@ -6,20 +6,18 @@
   content="width=device-width, 
   initial-scale=1.0, maximum-scale=1.0, 
   user-scalable=no">
-  <meta name="theme-color" content="#050505">
   <title>VibeGrid</title>
-  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="status-bar">
     <span id="fps-counter">FPS: --</span>
-    <span id="ram-meter">RAM: --/100MB</span>
+    <span id="ram-meter">RAM: --</span>
   </div>
 
   <div id="action-bar">
     <button class="btn-grid" 
-    onclick="toggleLibrary()">LIBRARY</button>
+    onclick="showLibrary()">APPS</button>
     <button class="btn-grid" 
     onclick="toggleMenu()">MENU</button>
   </div>
@@ -33,40 +31,40 @@
       <div id="vibe-menu" class="hidden">
         <h2 class="menu-title">SYSTEM</h2>
         <button class="menu-btn" 
-        onclick="saveState()">SAVE STATE</button>
+        onclick="quitGame()">QUIT</button>
         <button class="menu-btn" 
-        onclick="loadState()">LOAD STATE</button>
-        <button class="menu-btn quit-btn" 
-        onclick="quitGame()">QUIT GAME</button>
-        <button class="menu-btn close-btn" 
-        onclick="toggleMenu()">CLOSE MENU</button>
+        onclick="toggleMenu()">CLOSE</button>
       </div>
     </div>
   </main>
 
+  <div id="library-view" class="hidden">
+    <div class="lib-header">
+      <span>INSTALLED APPS</span>
+      <button onclick="pickNewRomz()">+</button>
+    </div>
+    <div id="lib-list">
+      </div>
+  </div>
+
   <div id="touch-controls">
     <div id="dpad">
-      <div class="d-btn" id="btn-up" 
-      data-key="ArrowUp">U</div>
+      <div class="d-btn" data-key="ArrowUp">U</div>
       <div class="d-row">
-        <div class="d-btn" id="btn-left" 
+        <div class="d-btn" 
         data-key="ArrowLeft">L</div>
         <div class="d-center"></div>
-        <div class="d-btn" id="btn-right" 
+        <div class="d-btn" 
         data-key="ArrowRight">R</div>
       </div>
-      <div class="d-btn" id="btn-down" 
-      data-key="ArrowDown">D</div>
+      <div class="d-btn" data-key="ArrowDown">D</div>
     </div>
-    
     <div id="action-pad">
-      <div class="a-btn" id="btn-b" 
-      data-key="x">B</div>
-      <div class="a-btn" id="btn-a" 
-      data-key="z">A</div>
+      <div class="a-btn" data-key="x">B</div>
+      <div class="a-btn" data-key="z">A</div>
     </div>
   </div>
 
   <script type="module" src="main.js"></script>
 </body>
-  </html>
+</html>
