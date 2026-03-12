@@ -1,23 +1,16 @@
-// Sandbox Touch Bridge Layer
 export const Controls = {
   init() {
+    // Select all buttons including numpad
     const btns = document.querySelectorAll(
-      '.d-btn, .a-btn'
+      '.d-btn, .a-btn, .n-btn'
     );
     
     btns.forEach(btn => {
-      // Touch start (finger down)
       btn.addEventListener('touchstart', 
         (e) => this.sendInput(e, 'down'), 
         { passive: false }
       );
-      // Touch end (finger up)
       btn.addEventListener('touchend', 
-        (e) => this.sendInput(e, 'up'),
-        { passive: false }
-      );
-      // Touch cancel (finger slid off)
-      btn.addEventListener('touchcancel',
         (e) => this.sendInput(e, 'up'),
         { passive: false }
       );
@@ -33,7 +26,6 @@ export const Controls = {
       'vibe-screen'
     );
     
-    // Pierce the iframe sandbox securely
     if (screen && screen.contentWindow) {
       screen.contentWindow.postMessage({
         type: 'VIBE_INPUT',
