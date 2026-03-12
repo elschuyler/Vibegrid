@@ -3,82 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" 
-  content="width=device-width, 
-  initial-scale=1.0, maximum-scale=1.0, 
-  user-scalable=no">
-  <title>VibeGrid</title>
-  <link rel="stylesheet" href="style.css">
+    content="width=device-width, 
+    initial-scale=1.0, 
+    maximum-scale=1.0, 
+    user-scalable=no">
+  <title>VibeGrid Launcher</title>
+  <link rel="stylesheet" href="vibe-ui.css">
 </head>
 <body>
-  <div id="status-bar">
-    <span id="fps-counter">FPS: --</span>
-    <span id="ram-meter">RAM: --</span>
-  </div>
-
-  <div id="action-bar">
-    <button class="btn-grid" 
-    onclick="showLibrary()">APPS</button>
-    <button class="btn-grid" 
-    onclick="toggleNumpad()">KEYS</button>
-    <button class="btn-grid" 
-    onclick="toggleMenu()">MENU</button>
-  </div>
-
-  <main id="app-container">
-    <div id="grid-display">
-      <iframe id="vibe-screen" 
-      sandbox="allow-scripts" 
-      frameborder="0"></iframe>
+  <div id="vibe-container">
+    <div class="vibe-shell">
+      <div class="vibe-node node-tl"></div>
+      <div class="vibe-node node-tr"></div>
+      <div class="vibe-node node-bl"></div>
+      <div class="vibe-node node-br"></div>
       
-      <div id="numpad-overlay" class="hidden">
-        <div class="num-grid">
-          <div class="n-btn" data-key="1">1</div>
-          <div class="n-btn" data-key="2">2</div>
-          <div class="n-btn" data-key="3">3</div>
-          <div class="n-btn" data-key="4">4</div>
-          <div class="n-btn" data-key="5">5</div>
-          <div class="n-btn" data-key="6">6</div>
-          <div class="n-btn" data-key="7">7</div>
-          <div class="n-btn" data-key="8">8</div>
-          <div class="n-btn" data-key="9">9</div>
-          <div class="n-btn" data-key="*">*</div>
-          <div class="n-btn" data-key="0">0</div>
-          <div class="n-btn" data-key="#">#</div>
-        </div>
+      <iframe id="vibe-screen"></iframe>
+      
+      <div class="vibe-soft-keys">
+        <span onclick="toggleLibrary()">
+          Menu
+        </span>
+        <span onclick="cleanupMemory()">
+          Exit
+        </span>
       </div>
-
-      <div id="vibe-menu" class="hidden">
-        <h2 class="menu-title">SYSTEM</h2>
-        <button class="menu-btn" 
-        onclick="quitGame()">QUIT</button>
-        <button class="menu-btn" 
-        onclick="toggleMenu()">CLOSE</button>
-      </div>
-    </div>
-  </main>
-
-  <div id="library-view" class="hidden">
-    <div id="lib-list"></div>
-    <button id="fab-add" 
-    onclick="pickNewRomz()">+</button>
-  </div>
-
-  <div id="touch-controls">
-    <div id="dpad">
-      <div class="d-btn" data-key="ArrowUp">U</div>
-      <div class="d-row">
-        <div class="d-btn" data-key="ArrowLeft">L</div>
-        <div class="d-center"></div>
-        <div class="d-btn" data-key="ArrowRight">R</div>
-      </div>
-      <div class="d-btn" data-key="ArrowDown">D</div>
-    </div>
-    <div id="action-pad">
-      <div class="a-btn" data-key="x">B</div>
-      <div class="a-btn" data-key="z">A</div>
     </div>
   </div>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" 
+    src="romz-handler.js">
+  </script>
 </body>
-  </html>
+</html>
