@@ -1,41 +1,95 @@
-/* Previous styles remain. Adding Numpad. */
+:root {
+  --glow-green: #00ff41;
+  --dim-green: rgba(0, 255, 65, 0.15);
+  --bg-black: #050505;
+  --panel-gray: #0d0d0d;
+  --circuit-line: #1a1a1a;
+}
 
-#numpad-overlay {
-  position: absolute;
-  top: 0; left: 0;
+body, html {
+  margin: 0; padding: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 5;
-}
-
-.num-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 20px;
-  background: var(--panel-gray);
-  border: 1px solid var(--glow-green);
-  border-radius: 8px;
-}
-
-.n-btn {
-  width: 50px;
-  height: 40px;
-  border: 1px solid var(--glow-green);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  background: #000;
+  background: var(--bg-black);
   color: var(--glow-green);
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  /* Digital Grid Pattern */
+  background-image: 
+    radial-gradient(circle, var(--glow-green) 
+    1px, transparent 1px),
+    linear-gradient(var(--circuit-line) 1px, 
+    transparent 1px),
+    linear-gradient(90deg, 
+    var(--circuit-line) 1px, transparent 1px);
+  background-size: 40px 40px, 20px 20px, 
+  20px 20px;
+  background-position: 0 0, 10px 10px, 10px 10px;
 }
 
-.n-btn:active {
+#status-bar {
+  height: 24px; background: #000;
+  display: flex; justify-content: space-between;
+  padding: 0 10px; font-size: 10px;
+  border-bottom: 2px solid var(--glow-green);
+  box-shadow: 0 0 10px var(--glow-green);
+  align-items: center; z-index: 100;
+}
+
+/* Glowing Nodes in Library */
+.lib-item {
+  display: flex; align-items: center;
+  padding: 15px; margin: 10px;
+  background: rgba(13, 13, 13, 0.8);
+  border-left: 3px solid var(--glow-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.lib-item::before {
+  content: ''; position: absolute;
+  top: 10px; right: 10px;
+  width: 6px; height: 6px;
   background: var(--glow-green);
-  color: #000;
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--glow-green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.lib-icon {
+  width: 48px; height: 48px;
+  background: var(--bg-black);
+  border: 1px solid var(--glow-green);
+  display: flex; align-items: center;
+  justify-content: center;
+}
+
+/* FAB - Glowing Green Button */
+#fab-add {
+  position: absolute; bottom: 30px;
+  right: 30px; width: 60px; height: 60px;
+  background: var(--bg-black);
+  color: var(--glow-green);
+  border: 2px solid var(--glow-green);
+  border-radius: 50%; font-size: 32px;
+  box-shadow: 0 0 15px var(--glow-green);
+  z-index: 30;
+}
+
+#fab-add:active {
+  background: var(--glow-green); color: #000;
+}
+
+/* High-Contrast Circuit Buttons */
+.d-btn, .a-btn, .n-btn {
+  border: 2px solid var(--glow-green);
+  box-shadow: inset 0 0 5px var(--dim-green);
+  background: #000; font-weight: bold;
 }
 
 .hidden { display: none !important; }
