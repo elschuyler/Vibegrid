@@ -12,7 +12,7 @@ export async function loadRomz(file) {
 
   fflate.unzip(u8, (err, unzipped) => {
     if (err) {
-      console.error("ROMZ Error");
+      console.error("VibeGrid: ROMZ Error", err);
       return;
     }
     injectGame(unzipped);
@@ -40,12 +40,10 @@ function injectGame(files) {
     }
   }
 
-  // The Input Injection Script
-  // This lives inside the AI game
   const inputBridge = `
     <script>
       window.addEventListener('message', e => {
-        if(e.data && e.data.type === 'VIBE_INPUT') {
+        if(e.data && e.data.type==='VIBE_INPUT'){
           const ev = new KeyboardEvent(
             e.data.state === 'down' ? 
             'keydown' : 'keyup', 
@@ -59,17 +57,22 @@ function injectGame(files) {
 
   let patchedHtml = indexHtml;
   
-  // Patch relative paths to Blob URLs
-  for (const [path, url] of 
-    Object.entries(blobMap)) {
-    const regex = new RegExp(path, 'g');
+  // Sort paths longest first to prevent 
+  // partial substring replacement bugs
+  const sortedPaths = Object.keys(blobMap)
+    .sort((a, b) => b.length - a.length);
+
+  for (const path of sortedPaths) {
+    // Escape special regex characters in path
+    const safePath = path.replace(
+      /[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'
+    );
+    const regex = new RegExp(safePath, 'g');
     patchedHtml = patchedHtml.replace(
-      regex, url
+      regex, blobMap[path]
     );
   }
 
-  // Inject our touch listener right 
-  // before the closing </head> tag
   patchedHtml = patchedHtml.replace(
     '</head>', 
     `${inputBridge}</head>`
@@ -78,8 +81,10 @@ function injectGame(files) {
   const screen = document.getElementById(
     'vibe-screen'
   );
-  screen.srcdoc = patchedHtml;
-  console.log("Game Mounted with Controls.");
+  if (screen) {
+    screen.srcdoc = patchedHtml;
+    console.log("Game Mounted via fflate.");
+  }
 }
 
 function getMime(ext) {
