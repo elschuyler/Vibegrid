@@ -1,0 +1,6 @@
+{
+  "appId": "com.vibegrid.app",
+  "appName": "VibeGrid",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
