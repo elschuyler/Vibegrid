@@ -1,0 +1,73 @@
+:root {
+  --grid-cyan: #00f2ff;
+  --grid-dark: #0a0a0c;
+  --glow-soft: 0 0 10px #00f2ff;
+}
+
+body {
+  background: var(--grid-dark);
+  margin: 0;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+/* The main phone shell */
+#vibe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(
+    circle, #1a1a2e 0%, #0a0a0c 100%
+  );
+}
+
+/* J2ME-style screen frame */
+.vibe-shell {
+  position: relative;
+  width: 90vw;
+  max-width: 360px;
+  height: 60vh;
+  border: 2px solid var(--grid-cyan);
+  box-shadow: var(--glow-soft);
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+#vibe-screen {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+/* The Soft-Key Bar */
+.vibe-soft-keys {
+  height: 40px;
+  background: #111;
+  border-top: 1px solid var(--grid-cyan);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  color: var(--grid-cyan);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Decorative Digital Grid nodes */
+.vibe-node {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--grid-cyan);
+  border-radius: 50%;
+  box-shadow: var(--glow-soft);
+}
+
+.node-tl { top: -4px; left: -4px; }
+.node-tr { top: -4px; right: -4px; }
+.node-bl { bottom: -4px; left: -4px; }
+.node-br { bottom: -4px; right: -4px; }
