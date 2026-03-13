@@ -8,6 +8,10 @@
     maximum-scale=1.0, 
     user-scalable=no">
   <title>VibeGrid Launcher</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00f2ff">
+  
   <link rel="stylesheet" href="vibe-ui.css">
 </head>
 <body>
@@ -33,6 +37,13 @@
 
   <script type="module" 
     src="romz-handler.js">
+  </script>
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js');
+    }
   </script>
 </body>
 </html>
