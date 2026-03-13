@@ -1,49 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" 
-    content="width=device-width, 
-    initial-scale=1.0, 
-    maximum-scale=1.0, 
-    user-scalable=no">
-  <title>VibeGrid Launcher</title>
-  
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#00f2ff">
-  
-  <link rel="stylesheet" href="vibe-ui.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, 
+  initial-scale=1.0, maximum-scale=1.0, 
+  user-scalable=no">
+ <title>VibeGrid</title>
+ <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div id="vibe-container">
-    <div class="vibe-shell">
-      <div class="vibe-node node-tl"></div>
-      <div class="vibe-node node-tr"></div>
-      <div class="vibe-node node-bl"></div>
-      <div class="vibe-node node-br"></div>
-      
-      <iframe id="vibe-screen"></iframe>
-      
-      <div class="vibe-soft-keys">
-        <span onclick="toggleLibrary()">
-          Menu
-        </span>
-        <span onclick="cleanupMemory()">
-          Exit
-        </span>
-      </div>
-    </div>
-  </div>
+<body class="bg-grid">
+ <div id="app">
+  <header>
+   <div class="status-bar">
+    <span id="title-node">VIBEGRID_v1</span>
+    <div class="battery-icon"></div>
+   </div>
+  </header>
 
-  <script type="module" 
-    src="romz-handler.js">
-  </script>
-  
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js');
-    }
-  </script>
+  <main id="game-container">
+   <iframe id="game-screen" title="Game View"></iframe>
+  </main>
+
+  <nav id="soft-keys">
+   <button class="key" id="btn-vault">VAULT</button>
+   <button class="key" id="btn-menu">MENU</button>
+  </nav>
+ </div>
+ <script type="module" src="main.js"></script>
 </body>
 </html>
