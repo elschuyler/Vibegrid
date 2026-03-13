@@ -1,5 +1,5 @@
 {
-  "appId": "com.vibegrid.app",
+  "appId": "com.vibegrid.engine",
   "appName": "VibeGrid",
   "webDir": "dist",
   "bundledWebRuntime": false
