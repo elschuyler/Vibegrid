@@ -17,9 +17,18 @@
    </div>
   </header>
 
-  <main id="game-container">
-   <iframe id="game-screen" title="Game View"></iframe>
+  <section id="library-view">
+   <div id="library-grid"></div>
+  </section>
+
+  <main id="game-container" class="hidden">
+   <iframe id="game-screen" 
+    title="Game View"></iframe>
   </main>
+
+  <div id="numpad-overlay" class="hidden">
+   <div class="numpad-grid"></div>
+  </div>
 
   <nav id="soft-keys">
    <button class="key" id="btn-vault">VAULT</button>
