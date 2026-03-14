@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, 
+  initial-scale=1.0, maximum-scale=1.0, 
+  user-scalable=no">
+ <title>VibeGrid</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-grid">
+ <div id="app">
+  <header>
+   <div class="status-bar">
+    <span id="title-node">VIBEGRID_v1</span>
+    <div class="battery-icon"></div>
+   </div>
+  </header>
+
+  <section id="library-view">
+   <div id="library-grid"></div>
+  </section>
+
+  <main id="game-container" class="hidden">
+   <iframe id="game-screen" 
+    title="Game View"></iframe>
+  </main>
+
+  <div id="numpad-overlay" class="hidden">
+   <div class="numpad-grid"></div>
+  </div>
+
+  <nav id="soft-keys">
+   <button class="key" id="btn-vault">VAULT</button>
+   <button class="key" id="btn-menu">MENU</button>
+  </nav>
+ </div>
+ <script type="module" src="main.js"></script>
+</body>
+</html>
