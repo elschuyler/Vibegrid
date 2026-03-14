@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm",
-    "cap:add": "npx capacitor add android",
-    "cap:sync": "npx capacitor sync"
+    "build": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
