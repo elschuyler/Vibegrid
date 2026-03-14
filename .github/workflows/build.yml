@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # We removed the cache requirement here
 
       - name: Install Dependencies
         run: npm install
@@ -21,8 +21,8 @@ jobs:
         run: |
           npm run build
           mkdir -p dist
-          # This line finds your index.html and puts it where Capacitor needs it
-          find . -maxdepth 2 -iname "index.html" -exec cp {} dist/index.html \;
+          find . -maxdepth 2 -iname "index.html" \
+            -exec cp {} dist/index.html \;
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Vibegrid-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/**/*.apk
