@@ -1,13 +1,11 @@
 {
   "name": "vibegrid",
   "version": "1.0.0",
-  "description": "Mobile-first AI JRPG Engine",
-  "main": "main.js",
   "type": "module",
   "scripts": {
     "build": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm",
-    "cap:add": "npx cap add android",
-    "cap:sync": "npx cap sync"
+    "cap:add": "npx capacitor add android",
+    "cap:sync": "npx capacitor sync"
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",
