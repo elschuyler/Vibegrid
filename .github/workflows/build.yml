@@ -21,9 +21,8 @@ jobs:
         run: |
           npm run build
           mkdir -p dist
+          # This line finds your index.html and puts it where Capacitor needs it
           find . -maxdepth 2 -iname "index.html" -exec cp {} dist/index.html \;
-          echo "Build Check: Contents of dist/"
-          ls -R dist/
 
       - name: Setup Java
         uses: actions/setup-java@v4
