@@ -12,7 +12,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # We removed the cache requirement here
 
       - name: Install Dependencies
         run: npm install
@@ -21,8 +20,8 @@ jobs:
         run: |
           npm run build
           mkdir -p dist
-          find . -maxdepth 2 -iname "index.html" \
-            -exec cp {} dist/index.html \;
+          find . -maxdepth 2 -iname \
+"index.html" -exec cp {} dist/index.html \;
 
       - name: Setup Java
         uses: actions/setup-java@v4
