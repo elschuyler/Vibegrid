@@ -1,4 +1,4 @@
-import { unpackArchive } } from './romz-handler.js';
+import { unpackArchive } from './romz-handler.js';
 
 document.addEventListener('DOMContentLoaded', 
   () => {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded',
       unpackArchive(file, (unpackedFiles) => {
         status.textContent = "SYS: ONLINE";
         
-        // Convert each unpacked file into a node
+        // Convert unpacked files into nodes
         Object.keys(unpackedFiles).forEach(name => {
           createGridNode(name, libView);
         });
