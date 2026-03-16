@@ -13,7 +13,6 @@ body, html {
   color: var(--glow-green);
   font-family: 'Courier New', monospace;
   overflow: hidden;
-  /* Digital Grid Pattern */
   background-image: 
     radial-gradient(circle, var(--glow-green) 
     1px, transparent 1px),
@@ -23,7 +22,8 @@ body, html {
     var(--circuit-line) 1px, transparent 1px);
   background-size: 40px 40px, 20px 20px, 
   20px 20px;
-  background-position: 0 0, 10px 10px, 10px 10px;
+  background-position: 0 0, 10px 10px, 
+  10px 10px;
 }
 
 #status-bar {
@@ -35,14 +35,57 @@ body, html {
   align-items: center; z-index: 100;
 }
 
-/* Glowing Nodes in Library */
+#btn-hamburger {
+  font-size: 18px; cursor: pointer;
+  margin-right: 15px;
+}
+
+/* Sidebar & Overlay */
+#sidebar-overlay {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.8);
+  z-index: 999;
+}
+
+#sys-sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 250px; height: 100vh;
+  background: var(--panel-gray);
+  border-right: 2px solid var(--glow-green);
+  z-index: 1000; transition: transform 0.3s;
+  padding: 20px; box-sizing: border-box;
+}
+
+#sys-sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar-header {
+  font-weight: bold; font-size: 18px;
+  border-bottom: 1px dashed var(--glow-green);
+  padding-bottom: 10px; margin-bottom: 20px;
+}
+
+.side-btn {
+  width: 100%; padding: 15px;
+  background: var(--bg-black);
+  color: var(--glow-green);
+  border: 1px solid var(--glow-green);
+  font-weight: bold; font-family: inherit;
+  box-shadow: inset 0 0 5px var(--dim-green);
+}
+
+.side-btn:active {
+  background: var(--glow-green); color: #000;
+}
+
 .lib-item {
   display: flex; align-items: center;
   padding: 15px; margin: 10px;
   background: rgba(13, 13, 13, 0.8);
   border-left: 3px solid var(--glow-green);
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 
 .lib-item::before {
@@ -69,7 +112,6 @@ body, html {
   justify-content: center;
 }
 
-/* FAB - Glowing Green Button */
 #fab-add {
   position: absolute; bottom: 30px;
   right: 30px; width: 60px; height: 60px;
@@ -85,8 +127,7 @@ body, html {
   background: var(--glow-green); color: #000;
 }
 
-/* High-Contrast Circuit Buttons */
-.d-btn, .a-btn, .n-btn {
+.d-btn, .n-btn {
   border: 2px solid var(--glow-green);
   box-shadow: inset 0 0 5px var(--dim-green);
   background: #000; font-weight: bold;
