@@ -2,38 +2,64 @@ import { unpackArchive } from './romz-handler.js';
 
 document.addEventListener('DOMContentLoaded', 
   () => {
+    // Core Elements
     const fab = document.getElementById('fab-add');
     const libView = document.getElementById(
       'library-view'
     );
+    const statusNode = document.getElementById(
+      'title-node'
+    );
     
-    // Create hidden file scanner
+    // Sidebar Elements
+    const hamburger = document.getElementById(
+      'btn-hamburger'
+    );
+    const sidebar = document.getElementById(
+      'sys-sidebar'
+    );
+    const overlay = document.getElementById(
+      'sidebar-overlay'
+    );
+    const clearBtn = document.getElementById(
+      'btn-clear-history'
+    );
+
+    // Sidebar Logic
+    function toggleMenu() {
+      sidebar.classList.toggle('closed');
+      overlay.classList.toggle('hidden');
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    clearBtn.addEventListener('click', () => {
+      libView.innerHTML = ''; // Wipe nodes
+      statusNode.textContent = "SYS: CLEARED";
+      toggleMenu(); // Close sidebar
+    });
+
+    // File Scanner Logic
     const scanner = document.createElement('input');
     scanner.type = 'file';
     scanner.accept = '.zip,.pk3,.pak';
     scanner.style.display = 'none';
     document.body.appendChild(scanner);
 
-    // Open hangar doors on click
     fab.addEventListener('click', () => {
       scanner.click();
     });
 
-    // Handle incoming cargo
     scanner.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
 
-      // Update status node
-      const status = document.getElementById(
-        'title-node'
-      );
-      status.textContent = "SYS: SCANNING...";
+      statusNode.textContent = "SYS: SCANNING...";
 
       unpackArchive(file, (unpackedFiles) => {
-        status.textContent = "SYS: ONLINE";
+        statusNode.textContent = "SYS: ONLINE";
         
-        // Convert unpacked files into nodes
         Object.keys(unpackedFiles).forEach(name => {
           createGridNode(name, libView);
         });
