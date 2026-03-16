@@ -9,14 +9,23 @@ maximum-scale=1.0, user-scalable=no">
  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+ <div id="sidebar-overlay" class="hidden">
+ </div>
+
+ <aside id="sys-sidebar" class="closed">
+  <div class="sidebar-header">SYS_MENU</div>
+  <button id="btn-clear-history" 
+   class="side-btn">CLEAR HISTORY</button>
+ </aside>
+
  <div id="app">
   <div id="status-bar">
+   <span id="btn-hamburger">☰</span>
    <span id="title-node">VIBEGRID_v1</span>
    <div class="battery-icon">SYS: OK</div>
   </div>
 
-  <section id="library-view">
-   </section>
+  <section id="library-view"></section>
 
   <main id="game-container" class="hidden">
    <iframe id="game-screen" 
