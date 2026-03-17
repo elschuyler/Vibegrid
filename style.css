@@ -79,6 +79,12 @@ body, html {
   background: var(--glow-green); color: #000;
 }
 
+/* Library View Rules */
+#library-view {
+  height: calc(100vh - 84px);
+  overflow-y: auto;
+}
+
 .lib-item {
   display: flex; align-items: center;
   padding: 15px; margin: 10px;
@@ -112,8 +118,34 @@ body, html {
   justify-content: center;
 }
 
+/* Game Screen Scaling Rules */
+#game-container {
+  height: calc(100vh - 84px);
+  width: 100%;
+  background: #000;
+}
+
+#game-screen {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Soft Key Rules */
+#soft-keys {
+  position: fixed; bottom: 0; left: 0;
+  width: 100%; height: 60px;
+  display: flex;
+}
+
+.key {
+  flex: 1; height: 100%;
+  color: var(--glow-green);
+}
+
 #fab-add {
-  position: absolute; bottom: 30px;
+  position: absolute; bottom: 80px;
   right: 30px; width: 60px; height: 60px;
   background: var(--bg-black);
   color: var(--glow-green);
