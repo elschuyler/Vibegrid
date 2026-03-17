@@ -7,19 +7,40 @@ export function unpackArchive(file, onComplete) {
     const buffer = e.target.result;
     const uint8Array = new Uint8Array(buffer);
     
-    // Background extraction prevents UI freezing
     fflate.unzip(uint8Array, (err, files) => {
       if (err) {
         console.error("Unpack Failed:", err);
         return;
       }
-      
-      // 'files' is an object containing every
-      // piece of data found in the archive
       onComplete(files);
     });
   };
   
-  // Start reading the vacuum-sealed file
   reader.readAsArrayBuffer(file);
+}
+
+export function bootCartridge(files) {
+  let htmlContent = null;
+  
+  // Scan the unpacked files for the main entry
+  for (const path in files) {
+    if (path.endsWith('index.html')) {
+      const fileData = files[path];
+      const decoder = new TextDecoder();
+      htmlContent = decoder.decode(fileData);
+      break;
+    }
+  }
+
+  if (!htmlContent) {
+    alert("SYS_ERR: Missing index.html");
+    return null;
+  }
+
+  // Project the HTML into a local memory object
+  const blob = new Blob(
+    [htmlContent], 
+    { type: 'text/html' }
+  );
+  return URL.createObjectURL(blob);
 }
