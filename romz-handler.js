@@ -21,14 +21,29 @@ export function unpackArchive(file, onComplete) {
 
 export function bootCartridge(files) {
   let htmlContent = null;
-  
-  // Scan the unpacked files for the main entry
+  const blobMap = {};
+
+  // 1. Separate HTML and map assets to Blobs
   for (const path in files) {
     if (path.endsWith('index.html')) {
-      const fileData = files[path];
       const decoder = new TextDecoder();
-      htmlContent = decoder.decode(fileData);
-      break;
+      htmlContent = decoder.decode(files[path]);
+    } else {
+      // Determine basic file types
+      let mime = 'application/octet-stream';
+      if (path.endsWith('.css')) {
+        mime = 'text/css';
+      } else if (path.endsWith('.js')) {
+        mime = 'application/javascript';
+      }
+      
+      const fileBlob = new Blob(
+        [files[path]], 
+        { type: mime }
+      );
+      blobMap[path] = URL.createObjectURL(
+        fileBlob
+      );
     }
   }
 
@@ -37,10 +52,27 @@ export function bootCartridge(files) {
     return null;
   }
 
-  // Project the HTML into a local memory object
-  const blob = new Blob(
+  // 2. Rewire HTML links to point to Memory Blobs
+  for (const [path, url] of Object.entries(
+    blobMap
+  )) {
+    const filename = path.split('/').pop();
+    
+    // Swap full paths
+    htmlContent = htmlContent
+      .split(path).join(url);
+      
+    // Swap isolated filenames just in case
+    if (path !== filename) {
+      htmlContent = htmlContent
+        .split(filename).join(url);
+    }
+  }
+
+  // 3. Project the final rewired HTML
+  const finalBlob = new Blob(
     [htmlContent], 
     { type: 'text/html' }
   );
-  return URL.createObjectURL(blob);
-}
+  return URL.createObjectURL(finalBlob);
+    }
