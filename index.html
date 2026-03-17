@@ -9,20 +9,21 @@ maximum-scale=1.0, user-scalable=no">
  <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <div id="sys-log" style="position:fixed; 
-  top:5px; right:5px; font-size:8px; 
-  color:yellow; z-index:9999; 
-  pointer-events:none;">SYS: WAITING...</div>
+ <div id="sys-log">SYS: WAITING...</div>
 
  <div id="sidebar-overlay" class="hidden"></div>
 
  <aside id="sys-sidebar" class="closed">
   <div class="sidebar-header">SYS_MENU</div>
-  <button id="btn-clear" 
-   class="side-btn">CLEAR MEMORY</button>
-  <div style="height: 15px;"></div>
-  <button id="btn-settings" 
-   class="side-btn">SETTINGS</button>
+  <div class="menu-content">
+   <button id="btn-settings" 
+    class="side-btn">SETTINGS</button>
+   <button id="btn-clear" 
+    class="side-btn">WIPE_MEM</button>
+   <button id="btn-reload" 
+    class="side-btn" 
+    onclick="location.reload()">RELOAD</button>
+  </div>
  </aside>
 
  <div id="settings-modal" class="hidden">
@@ -50,7 +51,9 @@ maximum-scale=1.0, user-scalable=no">
    <div class="battery-icon">SYS: OK</div>
   </header>
 
-  <section id="library-view"></section>
+  <section id="library-view">
+   <div class="empty-msg">VAULT_EMPTY: LOAD ZIP</div>
+  </section>
 
   <main id="game-container" class="hidden">
    <iframe id="game-screen"></iframe>
@@ -66,6 +69,6 @@ maximum-scale=1.0, user-scalable=no">
   </nav>
  </div>
  
- <script src="main.js"></script>
+ <script src="./main.js"></script>
 </body>
- </html>
+  </html>
