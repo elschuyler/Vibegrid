@@ -1,47 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=
 device-width, initial-scale=1.0, 
 maximum-scale=1.0, user-scalable=no">
- <title>VibeGrid</title>
- <link rel="stylesheet" href="style.css">
+  <title>VibeGrid</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <div id="sidebar-overlay" class="hidden">
- </div>
-
- <aside id="sys-sidebar" class="closed">
-  <div class="sidebar-header">SYS_MENU</div>
-  <button id="btn-clear-history" 
-   class="side-btn">CLEAR HISTORY</button>
- </aside>
-
- <div id="app">
-  <div id="status-bar">
-   <span id="btn-hamburger">☰</span>
-   <span id="title-node">VIBEGRID_v1</span>
-   <div class="battery-icon">SYS: OK</div>
+  <div id="sidebar-overlay" class="hidden">
   </div>
 
-  <section id="library-view"></section>
+  <aside id="sys-sidebar" class="closed">
+    <div class="sidebar-header">SYS_MENU</div>
+    <button id="btn-clear-history" 
+     class="side-btn">CLEAR MEMORY</button>
+    <div style="height: 15px;"></div>
+    <button id="btn-settings" 
+     class="side-btn">SETTINGS</button>
+  </aside>
 
-  <main id="game-container" class="hidden">
-   <iframe id="game-screen" 
-    title="Game View"></iframe>
-  </main>
+  <div id="settings-modal" class="hidden">
+    <div class="modal-box">
+      <div class="sidebar-header">
+       SYS_SETTINGS
+      </div>
+      <div style="font-size:10px; 
+           margin-bottom:5px; opacity:0.8;">
+        AI ROM GENERATOR PROMPT:
+      </div>
+      <textarea id="prompt-box" readonly>
+[VIBE GRID ROM MAKER PROMPT]
+You are generating a game cartridge for 
+the Vibe Grid pseudo-emulator. Vibe Grid 
+runs games entirely offline on low-end 
+Android hardware.
 
-  <button id="fab-add">+</button>
+CRITICAL ROM FORMAT RULES:
+1. You must output multiple files 
+(e.g., index.html, style.css, script.js) 
+to keep code clean and modular.
+2. You MUST include an 'index.html' file 
+as the main entry point.
+3. Provide each file in a standard 
+markdown code block with the filename 
+directly above it.
+4. NO external web assets. Use canvas 
+drawing or Base64 encoding for graphics.
+5. The user will manually zip the files. 
 
-  <nav id="soft-keys">
-   <button class="key d-btn" 
-    id="btn-vault">VAULT</button>
-   <button class="key n-btn" 
-    id="btn-menu">MENU</button>
-  </nav>
- </div>
- <script type="module" src="main.js">
- </script>
+GAME REQUEST:
+[INSERT YOUR GAME IDEA HERE]
+      </textarea>
+      <button id="btn-copy" class="side-btn"
+       style="margin-top:10px;">
+       COPY TO CLIPBOARD
+      </button>
+      <button id="btn-close-settings" 
+       class="side-btn" style="margin-top:10px; 
+       border-color: #555; color: #aaa;">
+       CLOSE
+      </button>
+    </div>
+  </div>
+
+  <div id="app">
+    <header id="status-bar">
+      <span id="btn-hamburger">☰</span>
+      <span id="title-node">VIBEGRID_v1</span>
+      <div class="battery-icon">SYS: OK</div>
+    </header>
+
+    <section id="library-view"></section>
+
+    <main id="game-container" class="hidden">
+      <iframe id="game-screen" 
+       title="Game View"></iframe>
+    </main>
+
+    <button id="fab-add">+</button>
+
+    <nav id="soft-keys">
+      <button class="key d-btn active-key" 
+       id="btn-vault">VAULT</button>
+      <button class="key n-btn" 
+       id="btn-menu">MENU</button>
+    </nav>
+  </div>
+
+  <script type="module" src="main.js"></script>
 </body>
-</html>
+       </html>
