@@ -1,136 +1,119 @@
-import { unpackArchive, bootCartridge } 
-  from './romz-handler.js';
+(function() {
+ const $ = (id) => document.getElementById(id);
+ 
+ // UI Elements
+ const sidebar = $('sys-sidebar');
+ const overlay = $('sidebar-overlay');
+ const modal = $('settings-modal');
+ 
+ // --- Sidebar Logic ---
+ $('btn-hamburger').onclick = () => {
+  sidebar.classList.remove('closed');
+  overlay.classList.remove('hidden');
+ };
+ 
+ overlay.onclick = () => {
+  sidebar.classList.add('closed');
+  overlay.classList.add('hidden');
+ };
+ 
+ $('btn-settings').onclick = () => {
+  modal.classList.remove('hidden');
+  sidebar.classList.add('closed');
+  overlay.classList.add('hidden');
+ };
+ 
+ $('btn-close-settings').onclick = () => {
+  modal.classList.add('hidden');
+ };
+ 
+ $('btn-copy').onclick = () => {
+  $('prompt-box').select();
+  document.execCommand('copy');
+  $('btn-copy').innerText = 'COPIED!';
+  setTimeout(() => {
+   $('btn-copy').innerText = 'COPY PROMPT';
+  }, 2000);
+ };
 
-document.addEventListener('DOMContentLoaded', 
-  () => {
-    const fab = document.getElementById('fab-add');
-    const libView = document.getElementById(
-      'library-view'
-    );
-    const gameContainer = document.getElementById(
-      'game-container'
-    );
-    const gameScreen = document.getElementById(
-      'game-screen'
-    );
-    const statusNode = document.getElementById(
-      'title-node'
-    );
-    
-    const btnVault = document.getElementById(
-      'btn-vault'
-    );
-    const btnMenu = document.getElementById(
-      'btn-menu'
-    );
+ // --- Navigation ---
+ const switchView = (v) => {
+  if(v === 'vault') {
+   $('library-view').classList.remove('hidden');
+   $('game-container').classList.add('hidden');
+   $('btn-vault').classList.add('active-key');
+   $('btn-menu').classList.remove('active-key');
+  } else {
+   $('library-view').classList.add('hidden');
+   $('game-container').classList.remove('hidden');
+   $('btn-vault').classList.remove('active-key');
+   $('btn-menu').classList.add('active-key');
+  }
+ };
+ 
+ $('btn-vault').onclick = () => switchView('vault');
+ $('btn-menu').onclick = () => switchView('menu');
 
-    const hamburger = document.getElementById(
-      'btn-hamburger'
-    );
-    const sidebar = document.getElementById(
-      'sys-sidebar'
-    );
-    const overlay = document.getElementById(
-      'sidebar-overlay'
-    );
-    const clearBtn = document.getElementById(
-      'btn-clear-history'
-    );
+ // --- ROM Engine ---
+ const scanner = document.createElement('input');
+ scanner.type = 'file';
+ scanner.accept = '.zip';
+ $('fab-add').onclick = () => scanner.click();
 
-    function switchView(view) {
-      if (view === 'vault') {
-        libView.classList.remove('hidden');
-        gameContainer.classList.add('hidden');
-        fab.classList.remove('hidden');
-        
-        btnVault.classList.add('active-key');
-        btnMenu.classList.remove('active-key');
-        statusNode.textContent = "SYS: VAULT";
-      } else {
-        libView.classList.add('hidden');
-        gameContainer.classList.remove('hidden');
-        fab.classList.add('hidden'); 
-        
-        btnVault.classList.remove('active-key');
-        btnMenu.classList.add('active-key');
-        statusNode.textContent = "SYS: PLAYING";
-      }
-    }
+ scanner.onchange = (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+   const data = new Uint8Array(ev.target.result);
+   fflate.unzip(data, (err, files) => {
+    if(err) return alert("ZIP FAIL");
+    boot(files, file.name);
+   });
+  };
+  reader.readAsArrayBuffer(file);
+ };
 
-    btnVault.addEventListener('click', () => 
-      switchView('vault')
-    );
-    btnMenu.addEventListener('click', () => 
-      switchView('menu')
-    );
+ function boot(files, name) {
+  let html = null;
+  const blobs = {};
+  
+  for (const path in files) {
+   const type = path.endsWith('.js') ? 
+    'text/javascript' : path.endsWith('.css') ? 
+    'text/css' : 'text/html';
+   const b = new Blob([files[path]], {type});
+   const url = URL.createObjectURL(b);
+   if(path.endsWith('index.html')) html = files[path];
+   blobs[path] = url;
+  }
 
-    switchView('vault');
+  if(!html) return alert("NO INDEX.HTML");
+  
+  let content = new TextDecoder().decode(html);
+  for (const p in blobs) {
+   content = content.split(p).join(blobs[p]);
+  }
+  
+  const finalUrl = URL.createObjectURL(
+   new Blob([content], {type:'text/html'})
+  );
+  
+  $('game-screen').src = finalUrl;
+  addToList(name, finalUrl);
+  switchView('menu');
+ }
 
-    function toggleMenu() {
-      sidebar.classList.toggle('closed');
-      overlay.classList.toggle('hidden');
-    }
-
-    hamburger.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', toggleMenu);
-
-    clearBtn.addEventListener('click', () => {
-      libView.innerHTML = ''; 
-      gameScreen.src = ''; // Kill running game
-      statusNode.textContent = "SYS: CLEARED";
-      toggleMenu(); 
-    });
-
-    const scanner = document.createElement('input');
-    scanner.type = 'file';
-    scanner.accept = '.zip,.pk3,.pak';
-    scanner.style.display = 'none';
-    document.body.appendChild(scanner);
-
-    fab.addEventListener('click', () => {
-      scanner.click();
-    });
-
-    scanner.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      statusNode.textContent = "SYS: UNPACKING...";
-
-      unpackArchive(file, (unpackedFiles) => {
-        statusNode.textContent = "SYS: READY";
-        createGameNode(file.name, unpackedFiles);
-      });
-    });
-
-    function createGameNode(name, filesData) {
-      const item = document.createElement('div');
-      item.className = 'lib-item';
-      
-      const icon = document.createElement('div');
-      icon.className = 'lib-icon';
-      icon.textContent = "[G]";
-      
-      const details = document.createElement('div');
-      details.style.marginLeft = '15px';
-      details.innerHTML = `
-        <div style="font-weight: bold; 
-             font-size: 12px;">${name}</div>
-        <div style="font-size: 10px; 
-             opacity: 0.7;">CART: LOADED</div>
-      `;
-      
-      // Tap the node to inject the hologram
-      item.addEventListener('click', () => {
-        const gameUrl = bootCartridge(filesData);
-        if (gameUrl) {
-          gameScreen.src = gameUrl;
-          switchView('menu');
-        }
-      });
-      
-      item.appendChild(icon);
-      item.appendChild(details);
-      libView.appendChild(item);
-    }
-});
+ function addToList(name, url) {
+  const div = document.createElement('div');
+  div.style.padding = '20px';
+  div.style.borderBottom = '1px solid #111';
+  div.innerText = `> ${name.toUpperCase()}`;
+  div.onclick = () => {
+   $('game-screen').src = url;
+   switchView('menu');
+  };
+  $('library-view').appendChild(div);
+ }
+})();
