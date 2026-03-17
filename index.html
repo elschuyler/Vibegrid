@@ -9,8 +9,12 @@ maximum-scale=1.0, user-scalable=no">
  <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <div id="sidebar-overlay" class="hidden">
- </div>
+ <div id="sys-log" style="position:fixed; 
+  top:5px; right:5px; font-size:8px; 
+  color:yellow; z-index:9999; 
+  pointer-events:none;">SYS: WAITING...</div>
+
+ <div id="sidebar-overlay" class="hidden"></div>
 
  <aside id="sys-sidebar" class="closed">
   <div class="sidebar-header">SYS_MENU</div>
@@ -62,7 +66,6 @@ maximum-scale=1.0, user-scalable=no">
   </nav>
  </div>
  
- <script src="https://unpkg.com/fflate"></script>
  <script src="main.js"></script>
 </body>
-    </html>
+ </html>
