@@ -16,83 +16,58 @@ body, html {
   linear-gradient(90deg, var(--dim) 1px, 
   transparent 1px);
  background-size: 30px 30px;
- touch-action: manipulation;
 }
-#status-bar {
- height: 40px; border-bottom: 1px 
- solid var(--neon); display: flex;
- align-items: center; padding: 0 15px;
- justify-content: space-between;
- z-index: 100; position: relative;
-}
-#btn-hamburger { 
- padding: 10px; cursor: pointer; 
+#sys-log {
+ position: fixed; top: 5px; right: 5px;
+ font-size: 8px; color: yellow;
+ z-index: 9999; pointer-events: none;
 }
 #sys-sidebar {
  position: fixed; top: 0; left: 0;
- width: 260px; height: 100%;
+ width: 220px; height: 100%;
  background: #050505; z-index: 1000;
  border-right: 1px solid var(--neon);
- transition: 0.3s; padding: 20px;
- box-sizing: border-box;
+ transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ padding: 20px; box-sizing: border-box;
+ display: flex; flex-direction: column;
+ align-items: flex-start; /* Left Align */
 }
-#sys-sidebar.closed {
- transform: translateX(-260px);
-}
-#sidebar-overlay {
- position: fixed; inset: 0;
- background: rgba(0,0,0,0.7);
- z-index: 998;
-}
-.side-btn, .key, #fab-add {
- cursor: pointer;
- -webkit-tap-highlight-color: transparent;
-}
+#sys-sidebar.closed { transform: translateX(-220px); }
+.menu-content { width: 100%; text-align: left; }
 .side-btn {
  width: 100%; padding: 12px;
  background: #000; color: var(--neon);
  border: 1px solid var(--neon);
- margin-bottom: 10px;
+ margin-bottom: 15px; text-align: left;
+ font-size: 12px; cursor: pointer;
 }
-#settings-modal {
- position: fixed; inset: 0;
- background: rgba(0,0,0,0.9);
- z-index: 2000; display: flex;
- align-items: center; justify-content: center;
+#status-bar {
+ height: 40px; border-bottom: 1px solid var(--neon);
+ display: flex; align-items: center; 
+ padding: 0 15px; justify-content: space-between;
 }
-.modal-box {
- width: 90%; background: #080808;
- border: 1px solid var(--neon);
- padding: 20px;
-}
-#prompt-box {
- width: 100%; height: 150px;
- background: #000; color: var(--neon);
- border: 1px solid var(--dim);
- font-size: 10px; margin-bottom: 10px;
-}
-#app { height: 100%; position: relative; }
-#library-view { 
- height: calc(100% - 110px); 
- overflow-y: auto;
+.empty-msg {
+ text-align: center; margin-top: 50px;
+ opacity: 0.5; font-size: 10px;
 }
 #soft-keys {
- position: fixed; bottom: 0;
- width: 100%; height: 60px;
- display: flex; z-index: 100;
+ position: fixed; bottom: 0; width: 100%;
+ height: 60px; display: flex; z-index: 100;
 }
 .key {
- flex: 1; background: #000;
- color: var(--neon); border: none;
- border-top: 1px solid var(--neon);
+ flex: 1; background: #000; color: var(--neon);
+ border: none; border-top: 1px solid var(--neon);
 }
 .active-key { background: var(--neon); color: #000; }
 #fab-add {
- position: fixed; bottom: 80px;
- right: 20px; width: 60px; height: 60px;
- border-radius: 50%; background: #000;
- color: var(--neon); border: 2px solid var(--neon);
- font-size: 30px; box-shadow: 0 0 10px var(--neon);
- z-index: 101;
+ position: fixed; bottom: 80px; right: 20px;
+ width: 60px; height: 60px; border-radius: 50%;
+ background: #000; color: var(--neon);
+ border: 2px solid var(--neon); font-size: 30px;
+ box-shadow: 0 0 10px var(--neon); z-index: 101;
 }
 .hidden { display: none !important; }
+#sidebar-overlay {
+ position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+ z-index: 998;
+               }
