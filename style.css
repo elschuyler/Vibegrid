@@ -16,12 +16,17 @@ body, html {
   linear-gradient(90deg, var(--dim) 1px, 
   transparent 1px);
  background-size: 30px 30px;
+ touch-action: manipulation;
 }
 #status-bar {
  height: 40px; border-bottom: 1px 
  solid var(--neon); display: flex;
  align-items: center; padding: 0 15px;
  justify-content: space-between;
+ z-index: 100; position: relative;
+}
+#btn-hamburger { 
+ padding: 10px; cursor: pointer; 
 }
 #sys-sidebar {
  position: fixed; top: 0; left: 0;
@@ -29,9 +34,19 @@ body, html {
  background: #050505; z-index: 1000;
  border-right: 1px solid var(--neon);
  transition: 0.3s; padding: 20px;
+ box-sizing: border-box;
 }
 #sys-sidebar.closed {
  transform: translateX(-260px);
+}
+#sidebar-overlay {
+ position: fixed; inset: 0;
+ background: rgba(0,0,0,0.7);
+ z-index: 998;
+}
+.side-btn, .key, #fab-add {
+ cursor: pointer;
+ -webkit-tap-highlight-color: transparent;
 }
 .side-btn {
  width: 100%; padding: 12px;
@@ -54,22 +69,17 @@ body, html {
  width: 100%; height: 150px;
  background: #000; color: var(--neon);
  border: 1px solid var(--dim);
- font-size: 10px;
+ font-size: 10px; margin-bottom: 10px;
 }
-#app { height: 100%; }
+#app { height: 100%; position: relative; }
 #library-view { 
  height: calc(100% - 110px); 
  overflow-y: auto;
 }
-#game-container { height: 100%; }
-#game-screen { 
- width: 100%; height: 100%; 
- border: none; 
-}
 #soft-keys {
  position: fixed; bottom: 0;
  width: 100%; height: 60px;
- display: flex;
+ display: flex; z-index: 100;
 }
 .key {
  flex: 1; background: #000;
@@ -83,5 +93,6 @@ body, html {
  border-radius: 50%; background: #000;
  color: var(--neon); border: 2px solid var(--neon);
  font-size: 30px; box-shadow: 0 0 10px var(--neon);
+ z-index: 101;
 }
 .hidden { display: none !important; }
